@@ -1120,12 +1120,10 @@
                 }
             },
             "config-opts": [
-                "-DCMAKE_C_FLAGS_RELEASE:STRING=-DNDEBUG",
-                "-DCMAKE_CXX_FLAGS_RELEASE:STRING=-DNDEBUG",
+                "-DLLVM_ENABLE_ASSERTIONS:BOOL=OFF",
                 "-DBUILD_SHARED_LIBS:BOOL=ON",
                 "-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON",
                 "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
-                "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic -static-libstdc++",
                 "-DLLVM_LIBDIR_SUFFIX=",
                 "-DLLVM_ENABLE_LIBCXX:BOOL=OFF",
                 "-DLLVM_ENABLE_ZLIB:BOOL=ON",
@@ -1134,12 +1132,11 @@
                 "-DLLVM_BUILD_RUNTIME:BOOL=ON",
                 "-DLLVM_INCLUDE_TOOLS:BOOL=ON",
                 "-DLLVM_BUILD_TOOLS:BOOL=ON",
-                "-DLLVM_INCLUDE_TESTS:BOOL=OFF",
                 "-DLLVM_BUILD_TESTS:BOOL=OFF",
                 "-DLLVM_INCLUDE_EXAMPLES:BOOL=OFF",
                 "-DLLVM_BUILD_EXAMPLES:BOOL=OFF",
                 "-DLLVM_INCLUDE_UTILS:BOOL=ON",
-                "-DLLVM_INSTALL_UTILS:BOOL=OFF",
+                "-DLLVM_INSTALL_UTILS:BOOL=ON",
                 "-DLLVM_INCLUDE_DOCS:BOOL=OFF",
                 "-DLLVM_BUILD_DOCS:BOOL=OFF",
                 "-DLLVM_ENABLE_SPHINX:BOOL=OFF",
@@ -1151,8 +1148,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://llvm.org/releases/4.0.1/llvm-4.0.1.src.tar.xz",
-                    "sha256": "da783db1f82d516791179fe103c71706046561f7972b18f0049242dee6712b51"
+                    "url": "http://llvm.org/releases/5.0.0/llvm-5.0.0.src.tar.xz",
+                    "sha256": "e35dcbae6084adcf4abb32514127c5eabd7d63b733852ccdb31e06f1373136da"
                 }
             ]
         },
@@ -1181,8 +1178,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://llvm.org/releases/4.0.1/cfe-4.0.1.src.tar.xz",
-                    "sha256": "61738a735852c23c3bdbe52d035488cdb2083013f384d67c1ba36fabebd8769b"
+                    "url": " http://llvm.org/releases/5.0.0/cfe-5.0.0.src.tar.xz",
+                    "sha256": "019f23c2192df793ac746595e94a403908749f8e0c484b403476d2611dd20970"
                 },
                 {
                     "type": "patch",
@@ -1285,14 +1282,14 @@
                             "--build=i586-unknown-linux-gnu",
 			    "--with-gallium-drivers=svga,swrast,nouveau,r600,r300,radeonsi",
 			    "--with-dri-drivers=swrast,nouveau,radeon,r200,i915,i965",
-			    "--with-vulkan-drivers=intel"
+			    "--with-vulkan-drivers=intel,radeon"
 			]
 		    },
 		    "x86_64" : {
 			"config-opts" : [
 			    "--with-gallium-drivers=svga,swrast,nouveau,r600,r300,radeonsi",
 			    "--with-dri-drivers=swrast,nouveau,radeon,r200,i915,i965",
-			    "--with-vulkan-drivers=intel"
+			    "--with-vulkan-drivers=intel,radeon"
 			]
 		    },
 		    "arm" : {
@@ -1342,16 +1339,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://mesa.freedesktop.org/archive/mesa-17.0.7.tar.xz",
-                    "sha256": "f6d75304a229c8d10443e219d6b6c0c342567dbab5a879ebe7cfa3c9139c4492"
-                },
-                {
-                    "type": "patch",
-                    "path": "mesa-EGL-Implement-the-libglvnd-interface-for-EGL-v2.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "mesa-fixup-EGL-Implement-the-libglvnd-interface-for-EGL-v.patch"
+                    "url": "https://mesa.freedesktop.org/archive/mesa-17.2.1.tar.xz",
+                    "sha256": "77385d17827cff24a3bae134342234f2efe7f7f990e778109682571dbbc9ba1e"
                 },
                 {
                     "type": "patch",
@@ -2209,7 +2198,9 @@
         {
             "name": "cups",
             "cleanup-platform": [ "/bin/cups-config" ],
-            "config-opts": ["--disable-static",
+            "config-opts": ["CC=gcc",
+                            "CXX=g++",
+                            "--disable-static",
                             "--enable-debug",
                             "--with-components=core",
                             "--with-dbusdir=/etc/dbus-1",
