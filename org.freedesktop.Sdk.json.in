@@ -98,7 +98,10 @@
                                    "ln -s libpython2.7.so.1.0 /usr/lib/libpython2.7.so",
                                    "ln -s libpython3.5m.so.1.0 /usr/lib/libpython3.5m.so",
                                    "ldconfig -C /usr/etc/ld.so.cache",
-                                   "cp -d /usr/lib/extra-links/* /usr/lib/ || true"
+                                   "cp -d /usr/lib/extra-links/* /usr/lib/ || true",
+                                   "chrpath -r '$ORIGIN/pulseaudio' /usr/lib/libpulse*.so",
+                                   "ln -s ../pulseaudio /usr/lib/alsa-lib/pulseaudio",
+                                   "chrpath -r '$ORIGIN/pulseaudio' /usr/lib/alsa-lib/libasound_module_pcm_pulse.so"
                                  ],
     "build-options" : {
         "cflags": "-O2 -g -fstack-protector-strong -D_FORTIFY_SOURCE=2",
@@ -1442,9 +1445,6 @@
                      "url": "http://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz",
                      "sha256": "a3186824de9f0d2095ded5d0d0db0405dc73133983c2fbb37291547e37462f57"
                  }
-            ],
-            "post-install": [
-                "chrpath -r '$ORIGIN/pulseaudio' /usr/lib/libpulse*.so"
             ]
         },
         {
@@ -1473,9 +1473,7 @@
             "config-opts": [ "--disable-jack", "--enable-pulseaudio", "--disable-samplerate",
                              "--disable-avcodec", "--with-speex=no"],
             "post-install": [
-                "mv /usr/share/alsa/alsa.conf.d/99-pulseaudio-default.conf.example /usr/share/alsa/alsa.conf.d/99-pulseaudio-default.conf",
-                "ln -s ../pulseaudio /usr/lib/alsa-lib/pulseaudio",
-                "chrpath -r '$ORIGIN/pulseaudio' /usr/lib/alsa-lib/libasound_module_pcm_pulse.so"
+                "mv /usr/share/alsa/alsa.conf.d/99-pulseaudio-default.conf.example /usr/share/alsa/alsa.conf.d/99-pulseaudio-default.conf"
             ],
             "sources": [
                 {
